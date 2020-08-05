@@ -344,9 +344,9 @@ cd unoise_all
 
 usearch9.2 -fastx_uniques all_samples_SF.fasta -fastaout all_samples_SF_DR.fasta -sizeout
 
-usearch9.2 -unoise2 all_samples_SF_DR.fasta -zotus unoise.fasta -tabbedout unoise_tab.txt 
+usearch9.2 -cluster_otus all_samples_SF_DR.fasta -otus uparse_otus.fasta -relabel OTU
 
-usearch9.2 -usearch_global all_samples_SF.fasta -db unoise.fasta -strand both -id 0.97 -otutabout unoise_tab.txt -biomout unoise_otu_biom.biom
+usearch9.2 -usearch_global all_samples_SF.fasta -db uparse_otus.fasta -strand both -id 0.97 -otutabout uparse_otu_tab.txt -biomout uparse_otu_biom.biom
 
 cd ..
 
