@@ -12,7 +12,7 @@
 #	3) Trimming of primer sequences and distal bases and removal of sequences without correct primer sequences
 #	4) Renaming files with USEARCH labels "barcodelabel=sample_id;sequence_id"
 #	5) Removing low abundant sequences
-#	6) OTU clusting and chimera detection with UNOISE3
+#	6) OTU clusting and chimera detection with UPARSE
 ##########################################################################################
 #	Input raw unmerged filenames must be named "sample_id_SXXX_L001_R1_001.fastq" (read 1)
 #	and "sample_id_SXXX_L001_R2_001.fastq" (read 2) and all deposited in a directory specified
@@ -330,31 +330,20 @@ done
 #*****************************************************************************************
 
 ##########################################################################################
-##########################################################################################
-
 		echo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-		echo UNOISE on all
+		echo UPARSE on all
 		echo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-		mkdir unoise_all
-
-cat ${SF}/*.fasta > unoise_all/all_samples_SF.fasta
-
-cd unoise_all
-
+		mkdir uparse_all
+		
+cat ${SF}/*.fasta > uparse_all/all_samples_SF.fasta
+cd uparse_all
 usearch9.2 -fastx_uniques all_samples_SF.fasta -fastaout all_samples_SF_DR.fasta -sizeout
-
 usearch9.2 -cluster_otus all_samples_SF_DR.fasta -otus uparse_otus.fasta -relabel OTU
-
 usearch9.2 -usearch_global all_samples_SF.fasta -db uparse_otus.fasta -strand both -id 0.97 -otutabout uparse_otu_tab.txt -biomout uparse_otu_biom.biom
-
 cd ..
-
 ##########################################################################################
-##########################################################################################
-
 	echo ""
 	echo Script complete
 	echo Script written by Alexander W. Gofton, 2017
-
 	echo Copy terminal output to a .txt for a log file - sorry I havnt been able to figure out a better way to do this...yet.
